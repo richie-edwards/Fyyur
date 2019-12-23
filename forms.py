@@ -1,10 +1,11 @@
 from datetime import datetime
 from flask_wtf import Form
 from wtforms import StringField, SelectField, SelectMultipleField, DateTimeField
-from wtforms.validators import DataRequired, AnyOf, URL, Regexp
+from wtforms.validators import AnyOf, DataRequired, NoneOf, Regexp, URL, ValidationError
 from enum import Enum
 import re
-from wtforms.fields.simple import BooleanField
+from wtforms.ext.sqlalchemy.fields import QuerySelectField
+from wtforms.fields.core import BooleanField
 
 class Genre(Enum):
     Alternative = 'Alternative'
@@ -63,16 +64,30 @@ def get_genre_choices(enum):
     return choices
 
 
+
 class ShowForm(Form):
-    artist_id = StringField(
-        'artist_id'
+    def validate_enddate_field(self, field):
+        if field.data < datetime.now():
+            raise ValidationError(
+                "End date must not be earlier than start date.")
+            
+    artist_id = QuerySelectField(
+        'artist_id',
+        validators=[DataRequired()],
+        get_label='name'
+        #allow_blank=True,
+        #blank_text='Please Select...'   
     )
-    venue_id = StringField(
-        'venue_id'
+    
+    venue_id = SelectField(
+        'venue_id',
+        validators=[DataRequired()],
+        coerce=int
     )
+ 
     start_time = DateTimeField(
         'start_time',
-        validators=[DataRequired()],
+        validators=[DataRequired(), ],
         default= datetime.today()
     )
 
@@ -162,7 +177,7 @@ class VenueForm(Form):
     )
     
     seeking_talent = BooleanField(
-        'seeking_talent', validators=[DataRequired()]
+        'seeking_talent'
     )
     
     seeking_description = StringField(
@@ -245,15 +260,18 @@ class ArtistForm(Form):
         'genres', validators=[DataRequired()],
         choices = get_genre_choices(Genre)
     )
-    website = StringField(
-        'website', validators=[URL()]
+    website_link = StringField(
+        'website_link', validators=[URL()]
     )
     facebook_link = StringField(
         # TODO implement enum restriction
         'facebook_link', validators=[URL()]
     )
-    seeking_venue = BooleanField(
-        'seeking_venue'
+    seeking_venue = SelectField(
+        'seeking_venue',
+        validators=[DataRequired()],
+        choices=[(True, 'True'), ('False', False)]
+        
     )
     seeking_description = StringField(
         'seeking_description'

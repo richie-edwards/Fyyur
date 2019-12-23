@@ -5,13 +5,11 @@
     <form method="post" class="form">
       <h3 class="form-heading">List a new show</h3>
       <div class="form-group">
-        <label for="artist_id">Artist ID</label>
-        <small>ID can be found on the Artist's Page</small>
+        <label for="artist_id">Select Artist</label>
         {{ form.artist_id(class_ = 'form-control', autofocus = true) }}
       </div>
       <div class="form-group">
-        <label for="venue_id">Venue ID</label>
-        <small>ID can be found on the Venue's Page</small>
+        <label for="venue_id">Select Venue</label>
         {{ form.venue_id(class_ = 'form-control', autofocus = true) }}
       </div>
       <div class="form-group">
