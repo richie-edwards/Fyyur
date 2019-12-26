@@ -5,6 +5,9 @@
 	<div class="col-sm-6">
 		<h1 class="monospace">
 			{{ artist.name }}
+			<a href="/artists/{{ artist.id }}/edit">
+				<i class="fas fa-edit"></i>
+			</a>
 		</h1>
 		<p class="subtitle">
 			ID: {{ artist.id }}
