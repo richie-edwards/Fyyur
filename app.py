@@ -246,7 +246,7 @@ def create_venue_submission():
     if field == 'genres':
       setattr(venue, field, request.form.getlist(field))
     elif field == 'seeking_talent':
-      setattr(venue, field, True if request.form.get(field) in (True, 't', 'True') else False)
+      setattr(venue, field, True if request.form.get(field) in ('y', True, 't', 'True') else False)
     else:
       setattr(venue, field, request.form.get(field))  
   
@@ -283,7 +283,7 @@ def edit_venue_submission(venue_id):
     if field == 'genres':
       setattr(venue, field, request.form.getlist(field))
     elif field == 'seeking_talent':
-      setattr(venue, field, True if request.form.get(field) in (True, 't', 'True') else False)
+      setattr(venue, field, True if request.form.get(field) in ('y', True, 't', 'True') else False)
     else:
       setattr(venue, field, request.form.get(field))  
   try:
@@ -371,7 +371,7 @@ def show_artist(artist_id):
       "city": artist.city,
       "state": artist.state,
       "phone": artist.phone,
-      "seeking_venue": True if artist.seeking_venue in (True, 't', 'True') else False,
+      "seeking_venue": True if artist.seeking_venue in ('y', True, 't', 'True') else False,
       "seeking_description": artist.seeking_description,
       "image_link": artist.image_link, #"https://images.unsplash.com/photo-1558369981-f9ca78462e61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=794&q=80",
       "facebook_link": artist.facebook_link,
@@ -401,7 +401,7 @@ def edit_artist_submission(artist_id):
     if field == 'genres':
       setattr(artist, field, request.form.getlist(field))
     elif field == 'seeking_venue':
-      setattr(artist, field, True if request.form.get(field) in (True, 't', 'True') else False)
+      setattr(artist, field, True if request.form.get(field) in ('y', True, 't', 'True') else False)
     else:
       setattr(artist, field, request.form.get(field))  
   
@@ -434,7 +434,7 @@ def create_artist_submission():
     if field == 'genres':
       setattr(artist, field, request.form.getlist(field))
     elif field == 'seeking_venue':
-      setattr(artist, field, True if request.form.get(field) in (True, 't', 'True') else False)
+      setattr(artist, field, True if request.form.get(field) in ('y', True, 't', 'True') else False)
     else:
       setattr(artist, field, request.form.get(field))  
   
