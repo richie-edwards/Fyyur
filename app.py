@@ -212,7 +212,7 @@ def show_venue(venue_id):
     past_shows.append({
         "artist_id": show.artist_id,
         "artist_name": artist.name,
-        "artist_image_link": artist.name,
+        "artist_image_link": artist.image_link,
         "start_time": str(show.start_time)
     })
     
@@ -222,7 +222,7 @@ def show_venue(venue_id):
     past_shows.append({
         "artist_id": show.artist_id,
         "artist_name": artist.name,
-        "artist_image_link": artist.name,
+        "artist_image_link": artist.image_link,
         "start_time": str(show.start_time)
     })
 
