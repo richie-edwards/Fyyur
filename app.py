@@ -53,8 +53,7 @@ class Venue(db.Model):
     
     @property 
     def upcoming_shows(self):
-      now = datetime.now()
-      upcoming_shows = [show for show in self.shows if show.start_time > now] #datetime.strptime(show.start_time, '%Y-%m-%d %H:%M:%S') > now]
+      upcoming_shows = [show for show in self.shows if show.start_time > datetime.now()] #datetime.strptime(show.start_time, '%Y-%m-%d %H:%M:%S') > now]
       return upcoming_shows
     
     @property
@@ -219,7 +218,7 @@ def show_venue(venue_id):
   upcoming_shows = []
   for show in venue.upcoming_shows:
     artist = Artist.query.get(show.artist_id)
-    past_shows.append({
+    upcoming_shows.append({
         "artist_id": show.artist_id,
         "artist_name": artist.name,
         "artist_image_link": artist.image_link,
