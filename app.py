@@ -45,7 +45,7 @@ class Venue(db.Model):
     image_link = db.Column(db.String(500))
     facebook_link = db.Column(db.String(120))
     genres = db.Column(db.ARRAY(db.String(120)))
-    shows = db.relationship('Show', backref='Venue', lazy=True)
+    shows = db.relationship('Show', backref='Venue', lazy=True, cascade='all, delete-orphan')
     seeking_talent = db.Column(db.Boolean, default=False)
     seeking_description = db.Column(db.String(800))
     website = db.Column(db.String(120))
@@ -68,8 +68,6 @@ class Venue(db.Model):
     @property
     def num_past_shows(self):
       return len(self.past_shows)
-    
-    # TODO: implement any missing fields, as a database migration using Flask-Migrate
 
 class Artist(db.Model):
     __tablename__ = 'Artist'
@@ -310,8 +308,23 @@ def delete_venue(venue_id):
 
   # BONUS CHALLENGE: Implement a button to delete a Venue on a Venue Page, have it so that
   # clicking that button delete it from the db then redirect the user to the homepage
-  return None
+  venue = Venue.query.get(venue_id)
+  try:
+    # venue.delete()
+    db.session.delete(venue)
+    db.session.commit()
+    flash('Venue ' + venue.name + ' was successfully deleted!')
 
+  except SQLAlchemyError as e:
+    error = str(e.__dict__['orig'])
+    flash('An error occurred. Venue ' + venue.name + ' could not be deleted.')
+    db.session.rollback()
+    return None
+
+  finally:
+    db.session.close()
+  
+  return None #render_template('pages/home.html')
 
 #  Artists
 #  ----------------------------------------------------------------
